@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +22,8 @@ public class Log {
     private int id;
     @ManyToOne
     private Project project;
-    private LocalDate date;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date date;
     private int hour;
 
 }

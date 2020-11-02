@@ -12,6 +12,8 @@
     <select name="project.id">
         <option th:each="projects: ${allProjects}" th:text="${projects.name}" th:value="${projects.id}"></option>
     </select> <br>
+    Select Date: <br>
+    <input type="date" name="date"> <br>
     Input Hour: <br>
     <input type="number" name="hour"> <br>
     <input type="submit" value="Add">

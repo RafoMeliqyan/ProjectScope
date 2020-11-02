@@ -17,7 +17,10 @@ import project.scope.am.repository.UserRepository;
 import project.scope.am.security.CurrentUser;
 import project.scope.am.service.ProjectService;
 
-import java.time.LocalDate;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -38,7 +41,8 @@ public class ProjectController {
     }
 
     @GetMapping("/userProjects")
-    public String userProjects(@RequestParam("id") int id,Model model,@AuthenticationPrincipal CurrentUser currentUser) {
+    public String userProjects(@RequestParam("id") int id,Model model,
+                               @AuthenticationPrincipal CurrentUser currentUser) {
         User user = currentUser.getUser();
         List<Project> allByMember_id = projectService.findByMember(id);
         model.addAttribute("allByMember_id", allByMember_id);
@@ -49,7 +53,7 @@ public class ProjectController {
     @GetMapping("/projects")
     public String projects(Model model,
                            @RequestParam(value = "page", defaultValue = "1") int page,
-                           @RequestParam(value = "size", defaultValue = "10") int size,
+                           @RequestParam(value = "size", defaultValue = "5") int size,
                            @AuthenticationPrincipal CurrentUser currentUser) {
         PageRequest pageRequest = PageRequest.of(page - 1, size);
         Page<Project> allProjects = projectRepository.findAll(pageRequest);
@@ -70,9 +74,14 @@ public class ProjectController {
     }
 
     @PostMapping("/project/add")
-    public String addProject(@ModelAttribute Project project) {
-        project.setDate(LocalDate.now());
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd").parse(project.getDeadline());
+    public String addProject(@ModelAttribute Project project) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = dateFormat.format(project.getDeadline());
+        String format2 = dateFormat.format(project.getDate());
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(format);
+        Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(format2);
+        project.setDeadline(date);
+        project.setDate(date2);
         projectService.save(project);
         return "redirect:/projects";
     }
@@ -81,6 +90,29 @@ public class ProjectController {
     public String deleteProject(@RequestParam("id") int id) {
         projectService.deleteById(id);
         return "redirect:/projects";
+    }
+
+    @GetMapping("/search")
+    public String search(Model model, @RequestParam("name") String name,@AuthenticationPrincipal CurrentUser currentUser) {
+        User user = currentUser.getUser();
+        List<Project> allByNameContaining = projectService.findByName(name);
+        model.addAttribute("searchProjects", allByNameContaining);
+        model.addAttribute("user", user);
+        return "search";
+    }
+
+    @GetMapping("/filter")
+    public String filter(@RequestParam("date") Date date, @RequestParam("deadline") Date deadline, Model model, @AuthenticationPrincipal CurrentUser currentUser) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format2 = dateFormat.format(date);
+        String format = dateFormat.format(deadline);
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(format);
+        Date deadline2 = new SimpleDateFormat("yyyy-MM-dd").parse(format2);
+        User user = currentUser.getUser();
+        List<Project> filterProjects = projectRepository.findAllByDateIsStartingWithAndDeadlineIsEndingWith(date1, deadline2);
+        model.addAttribute("user", user);
+        model.addAttribute("projects", filterProjects);
+        return "filter";
     }
 
 }

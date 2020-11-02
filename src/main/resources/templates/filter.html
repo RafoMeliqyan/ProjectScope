@@ -2,26 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Projects</title>
+    <title>Filter</title>
 </head>
 <body>
 
 <img th:src="@{/image(name=${user.profile_picture})}" height="40" style="display: inline">
 <p th:text="${user.name}" style="display: inline; float: none"></p> <p style="display: inline; float: none"> </p> <p th:text="${user.surname}" style="display: inline; float: none"></p><br>
 
-<p style="margin-left: 230px; color: lime">Projects:</p> <br>
+<p style="margin-left: 230px; color: lime">Filter Projects:</p> <br>
 
 <a href="/newProjectPage" style="color: lime; text-decoration: none;margin-left: 80px">New</a> <br>
 
 <form action="/search" style="margin-left: 80px">
     <input type="search" name="name" placeholder="Search">
     <input type="submit" value="Search">
-</form>
-
-<form action="/filter" style="margin-left: 80px">
-    <input type="date" name="date">
-    <input type="date" name="deadline">
-    <input type="submit" value="Filter">
 </form>
 
 <table border="1" style="margin-left: 80px">
@@ -36,7 +30,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="projects: ${allProjects}">
+    <tr th:each="projects: ${projects}">
         <td><a th:href="@{/project/delete(id=${projects.id})}" style="color: red; text-decoration: none">Delete</a></td>
         <td th:text="${projects.name}"></td>
         <td th:text="${projects.date}"></td>
@@ -46,14 +40,6 @@
     </tr>
     </tbody>
 </table>
-
-<div th:if="${allProjects.totalPages > 0}" class="pagination"
-     th:each="pageNumber : ${pageNumbers}">
-                <span class="page-numbers current">
-                <a th:href="@{/projects(size=${allProjects.size}, page=${pageNumber})}"
-                   th:text=${pageNumber}
-                   th:class="${pageNumber==allProjects.number + 1} ? active" style="color: lime"></a> </span>
-</div>
 
 </body>
 </html>

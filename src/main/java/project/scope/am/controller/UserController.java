@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import project.scope.am.model.Project;
 import project.scope.am.model.Type;
 import project.scope.am.model.User;
 import project.scope.am.repository.UserRepository;
@@ -38,7 +37,6 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final UserRepository userRepository;
-    private final ProjectService projectService;
 
     @GetMapping("/")
     public String main() {
@@ -92,7 +90,7 @@ public class UserController {
     @GetMapping("/users")
     public String users(Model model,
                         @RequestParam(value = "page", defaultValue = "1") int page,
-                        @RequestParam(value = "size", defaultValue = "10") int size,
+                        @RequestParam(value = "size", defaultValue = "5") int size,
                         @AuthenticationPrincipal CurrentUser currentUser) {
         PageRequest pageRequest = PageRequest.of(page - 1, size);
         Page<User> all = userRepository.findAll(pageRequest);
@@ -110,15 +108,6 @@ public class UserController {
         model.addAttribute("allUsers", all);
         model.addAttribute("user", user);
         return "users";
-    }
-
-    @GetMapping("/search")
-    public String search(Model model, @RequestParam("name") String name,@AuthenticationPrincipal CurrentUser currentUser) {
-        User user = currentUser.getUser();
-        List<Project> allByNameContaining = projectService.findByName(name);
-        model.addAttribute("searchProjects", allByNameContaining);
-        model.addAttribute("user", user);
-        return "search";
     }
 
     @GetMapping(

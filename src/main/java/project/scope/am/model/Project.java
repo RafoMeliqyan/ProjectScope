@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,8 +22,10 @@ public class Project {
     @GeneratedValue
     private int id;
     private String name;
-    private LocalDate date;
-    private LocalDate deadline;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date date;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date deadline;
     @ManyToOne
     private User member;
     private int hours;

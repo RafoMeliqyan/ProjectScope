@@ -33,5 +33,13 @@
     </tbody>
 </table>
 
+<div th:if="${logs.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+                <span class="page-numbers current">
+                <a th:href="@{/logs(size=${logs.size}, page=${pageNumber})}"
+                   th:text=${pageNumber}
+                   th:class="${pageNumber==logs.number + 1} ? active" style="color: lime"></a> </span>
+</div>
+
 </body>
 </html>
