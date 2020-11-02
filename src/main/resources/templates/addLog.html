@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Log</title>
+    <link rel="stylesheet" href="//css//style.css"/>
+</head>
+<body>
+
+<form action="/logs/add" method="post">
+    Select Project: <br>
+    <select name="project.id">
+        <option th:each="projects: ${allProjects}" th:text="${projects.name}" th:value="${projects.id}"></option>
+    </select> <br>
+    Input Hour: <br>
+    <input type="number" name="hour"> <br>
+    <input type="submit" value="Add">
+</form>
+
+</body>
+</html>

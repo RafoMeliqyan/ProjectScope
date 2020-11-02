@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<img th:src="@{/image(name=${user.profile_picture})}" height="40" style="display: inline">
+<p th:text="${user.name}" style="display: inline; float: none"></p> <p style="display: inline; float: none"> </p> <p th:text="${user.surname}" style="display: inline; float: none"></p><br>
+
+<p style="margin-left: 230px; color: lime">Projects:</p> <br>
+<a href="/newProjectPage" style="color: lime; text-decoration: none;margin-left: 80px">New</a> <br>
+<form action="/search" style="margin-left: 80px">
+    <input type="search" name="name" placeholder="Search">
+    <input type="submit" value="Search">
+</form>
+
+<table border="1" style="margin-left: 80px">
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Date</td>
+        <td>Deadline</td>
+        <td>Member</td>
+        <td>Hours</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="searchProject: ${searchProjects}">
+        <td th:text="${searchProject.name}"></td>
+        <td th:text="${searchProject.date}"></td>
+        <td th:text="${searchProject.deadline}"></td>
+        <td th:text="${searchProject.member.name}"></td>
+        <td th:text="${searchProject.hours}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/projects">Back</a>
+
+</body>
+</html>

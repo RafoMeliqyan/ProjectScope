@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<img th:src="@{/image(name=${user.profile_picture})}" height="40" style="display: inline">
+<p th:text="${user.name}" style="display: inline; float: none"></p> <p style="display: inline; float: none"> </p> <p th:text="${user.surname}" style="display: inline; float: none"></p><br>
+
+<p style="margin-left: 230px; color: lime">All Members</p> <br>
+<table border="1" style="margin-left: 80px">
+    <thead>
+    <tr>
+        <td>Picture</td>
+        <td>Name</td>
+        <td>Surname</td>
+        <td>Username</td>
+        <td>Type</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="users: ${allUsers}">
+        <td><div><img th:src="@{/image(name=${users.profile_picture})}" height="50"></div></td>
+        <td th:text="${users.name}"></td>
+        <td th:text="${users.surname}"></td>
+        <td th:text="${users.username}"></td>
+        <td th:text="${users.type}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${allUsers.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+                <span class="page-numbers current">
+                <a th:href="@{/users(size=${allUsers.size}, page=${pageNumber})}"
+                   th:text=${pageNumber}
+                   th:class="${pageNumber==allUsers.number + 1} ? active"></a> </span>
+</div>
+
+</body>
+</html>

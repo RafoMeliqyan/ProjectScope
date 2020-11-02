@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Member</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<a th:href="@{/userProjects(id=${user.id})}" style="color: lime; text-decoration: none">Projects</a> <br>
+<a href="/logs" style="color: lime; text-decoration: none">Logs</a> <br>
+<a href="/logout" style="color: red; text-decoration: none">Log Out</a>
+</body>
+</html>

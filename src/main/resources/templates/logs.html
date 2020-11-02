@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Logs</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<img th:src="@{/image(name=${user.profile_picture})}" height="40" style="display: inline">
+<p th:text="${user.name}" style="display: inline; float: none"></p> <p style="display: inline; float: none"> </p> <p th:text="${user.surname}" style="display: inline; float: none"></p><br>
+
+<p style="margin-left: 230px; color: lime; display: inline">Logs:</p> <br>
+
+<a href="/addLogPage" style="color: lime;margin-left: 80px;text-decoration: none">Add Log</a>
+
+<table border="1" style="margin-left: 80px">
+    <thead>
+    <tr>
+        <td>Delete</td>
+        <td>Project Name</td>
+        <td>Date</td>
+        <td>Hours</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="log: ${logs}">
+        <td><a th:href="@{/logs/delete(id=${log.id})}" style="color: red; text-decoration: none">Delete</a></td>
+        <td th:text="${log.project.name}"></td>
+        <td th:text="${log.date}"></td>
+        <td th:text="${log.hour}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

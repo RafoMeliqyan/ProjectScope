@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Member Projects</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<img th:src="@{/image(name=${user.profile_picture})}" height="40" style="display: inline">
+<p th:text="${user.name}" style="display: inline; float: none"></p> <p style="display: inline; float: none"> </p> <p th:text="${user.surname}" style="display: inline; float: none"></p><br>
+
+<p style="color: black;margin-left: 230px;display: inline">My</p> <p style="color: lime;display: inline">Projects:</p> <br>
+<table border="1" style="margin-left: 80px">
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Date</td>
+        <td>Deadline</td>
+        <td>Member</td>
+        <td>Hours</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="projects: ${allByMember_id}">
+        <td th:text="${projects.name}"></td>
+        <td th:text="${projects.date}"></td>
+        <td th:text="${projects.deadline}"></td>
+        <td th:text="${projects.member.name}"></td>
+        <td th:text="${projects.hours}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
